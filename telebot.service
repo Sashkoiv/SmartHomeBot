@@ -1,0 +1,11 @@
+[Unit]
+Description=Telegram Bot
+After=multi-user.target
+
+[Service]
+Environment= API_TOKEN= write here a token of your bot
+Type=simple
+ExecStart=/usr/bin/python home/pi/SmartHomeBot/bot.py
+
+[Install]
+WantedBy=multi-user.target
