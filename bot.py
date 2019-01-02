@@ -7,7 +7,13 @@ import smbus
 import Adafruit_DHT
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-API_TOKEN = os.environ['API_TOKEN']
+if "API_TOKEN" in os.environ:
+  if len(os.environ['API_TOKEN']) == 45:
+    API_TOKEN = os.environ['API_TOKEN']
+else:
+  print ('Telegram API Token is not set')
+  raise AssertionError("Please configure API_TOKEN as environment variables")
+
 address = 0x48
 pin = 4
 

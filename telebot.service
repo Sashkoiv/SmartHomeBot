@@ -6,6 +6,8 @@ After=multi-user.target
 Environment= API_TOKEN= write here a token of your bot
 Type=simple
 ExecStart=/usr/bin/python home/pi/SmartHomeBot/bot.py
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
