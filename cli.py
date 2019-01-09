@@ -49,35 +49,56 @@ def daemon(token):
 @cli.command()
 def start():
     "Start a system background process"
-    print ()
+
+    if os.system('sudo systemctl daemon-reload'):
+        raise AssertionError("Can't reload daemons")
+    else:
+        click.echo('Daemons are reloaded')
+
+    if os.system('sudo systemctl enable ' + MODULE_NAME):
+        raise AssertionError("Can't enable system process")
+    else:
+        click.echo('Daemon enabled')
+
+    if os.system('sudo systemctl start ' + MODULE_NAME):
+        raise AssertionError("Can't start system process")
+    else:
+        click.echo('Daemon started')
+
+    os.system('sudo systemctl status ' + MODULE_NAME)
 
 @cli.command()
 def stop():
     "Stop a system background process"
 
+    if os.system('sudo systemctl stop ' + MODULE_NAME):
+        raise AssertionError("Can't start system process")
+    else:
+        click.echo('Daemon stopped')
+
+    os.system('sudo systemctl status ' + MODULE_NAME)
+
 @cli.command()
 def restart():
     "Restart a system background process"
 
+    if os.system('sudo systemctl daemon-reload'):
+        raise AssertionError("Can't start system process")
+    else:
+        click.echo('Daemon reloaded')
+
+    if os.system('sudo systemctl restart ' + MODULE_NAME):
+        raise AssertionError("Can't start system process")
+    else:
+        click.echo('Daemon restarted')
+
+    os.system('sudo systemctl status ' + MODULE_NAME)
+
 @cli.command()
 def status():
     "Status of a system background process"
+    os.system('sudo systemctl status ' + MODULE_NAME)
 
-
-
-# @click.option("--count", default=1, help="Number of greetings.")
-# @click.option("--name", prompt="Your name", help="The person to greet.")
-# def test(count, name):
-#     """Simple program that greets NAME for a total of COUNT times."""
-#     for _ in range(count):
-#         print ("Hello, %s!" % name)
-#         click.echo("Hello, %s!" % name)
-
-# @cli.command()
-# @click.option("--pompom", '-p', default='trololo', help='my first command')
-# def cl(pompom):
-#     """trololo"""
-#     click.echo("entered %s" % pompom)
 
 if __name__ == '__main__':
     cli()
