@@ -3,7 +3,7 @@ Description=Telegram Bot
 After=multi-user.target
 
 [Service]
-Environment= API_TOKEN= write here a token of your bot
+Environment= API_TOKEN=enter_telegram_bot_token_here
 Type=simple
 ExecStart=/usr/bin/python home/pi/SmartHomeBot/bot.py
 Restart=always
