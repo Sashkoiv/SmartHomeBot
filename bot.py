@@ -5,6 +5,7 @@ import sys
 import os
 import smbus
 import Adafruit_DHT
+from picamera import PiCamera
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 if "API_TOKEN" in os.environ:
@@ -47,6 +48,17 @@ def hum(message):
     humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, pin)
     bot.send_message(message.chat.id,'DHT11 humidity is {0:5.2f} %'.format(humidity))
 
+
+# Request a photo
+@bot.message_handler(commands=['picture'])
+def picture(message):
+    camera = PiCamera()
+    camera.start_preview()
+    camera.capture('/home/pi/security-photo.jpg')
+    camera.stop_preview()
+    photo = open('/home/pi/security-photo.jpg', 'rb')
+    bot.send_photo(message.chat.id, photo)
+    bot.send_photo(message.chat.id, "FILEID")
 
 # # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
 # @bot.message_handler(func=lambda message: True)
